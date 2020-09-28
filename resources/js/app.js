@@ -13,7 +13,7 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 
 Vue.use(ViewUI);
-
+// this is global, use it as a mixin
 import common from './common'
 Vue.mixin(common)
 /**
@@ -27,6 +27,7 @@ Vue.mixin(common)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+// global component
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('mainapp', require('./components/mainapp.vue').default)
 /**

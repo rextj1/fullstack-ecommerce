@@ -1,6 +1,8 @@
 import Vue from 'vue'
+// router global regostration
 import Router from 'vue-router'
 Vue.use(Router)
+
 import firstPage from './components/pages/myFirstVuePage'
 import newRoutePage from './components/pages/newRoutePage'
 import hooks from './components/pages/basic/hooks'
@@ -16,7 +18,6 @@ const routes = [
     // hooks
     { path: '/hooks',component: hooks },
     { path: '/methods',component: methods },
-
     // admin panel
     { path: '/home', component: home },
     { path: '/tags', component: tags },

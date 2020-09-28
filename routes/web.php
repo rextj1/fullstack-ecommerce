@@ -21,7 +21,8 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-route::post('app/create_tag', 'TestController@test');
+route::post('app/create_tag', 'AdminController@addTag');
+route::get('app/get_tags', 'AdminController@getTag');
 route::get('new', 'TestController@Method');
 
 route::any('{slug}', function(){

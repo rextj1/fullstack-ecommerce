@@ -2148,6 +2148,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2160,7 +2162,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       editModal: false,
       editData: {
         tagName: ''
-      }
+      },
+      index: -1
     };
   },
   methods: {
@@ -2229,16 +2232,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                return _context2.abrupt("return", _this2.e('The name is required'));
+                return _context2.abrupt("return", _this2.e('Tag name is required'));
 
               case 2:
                 _context2.next = 4;
-                return _this2.callApi('post', 'app/edit_tag', _this2.data);
+                return _this2.callApi('post', 'app/edit_tag', _this2.editData);
 
               case 4:
                 res = _context2.sent;
 
                 if (res.status === 200) {
+                  _this2.tags[_this2.index].tagName = _this2.editData.tagName;
+
                   _this2.s('Tag has been edited successfully!');
 
                   _this2.editModal = false;
@@ -2260,9 +2265,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    showEditModal: function showEditModal(tag) {
-      this.editData = tag;
+    showEditModal: function showEditModal(tag, index) {
+      var obj = {
+        id: tag.id,
+        tagName: tag.tagName
+      };
+      this.editData = obj;
       this.editModal = true;
+      this.index = index;
     }
   },
   created: function created() {
@@ -85798,7 +85808,7 @@ var render = function() {
                                   attrs: { type: "info", size: "small" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.showEditModal(tag)
+                                      return _vm.showEditModal(tag, i)
                                     }
                                   }
                                 },
@@ -85809,7 +85819,12 @@ var render = function() {
                                 "button",
                                 {
                                   staticClass: "btn-danger btn-sm",
-                                  attrs: { type: "error", size: "error" }
+                                  attrs: { type: "error", size: "small" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteTag(tag, i)
+                                    }
+                                  }
                                 },
                                 [_vm._v("Delete")]
                               )
@@ -85960,9 +85975,9 @@ var render = function() {
                       disabled: _vm.isAdding,
                       loading: _vm.isAdding
                     },
-                    on: { click: _vm.addTag }
+                    on: { click: _vm.editTag }
                   },
-                  [_vm._v(_vm._s(_vm.isAdding ? "loading..." : "Add Tag"))]
+                  [_vm._v(_vm._s(_vm.isAdding ? "Editing..." : "Edit Tag"))]
                 )
               ])
             ]
@@ -85970,8 +85985,7 @@ var render = function() {
         ],
         1
       )
-    ]),
-    _vm._v("+\n    ")
+    ])
   ])
 }
 var staticRenderFns = [
@@ -101832,14 +101846,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/js/components/pages/tags.vue ***!
   \************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tags_vue_vue_type_template_id_d06163e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tags.vue?vue&type=template&id=d06163e2& */ "./resources/js/components/pages/tags.vue?vue&type=template&id=d06163e2&");
 /* harmony import */ var _tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tags.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/tags.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -101869,7 +101884,7 @@ component.options.__file = "resources/js/components/pages/tags.vue"
 /*!*************************************************************************!*\
   !*** ./resources/js/components/pages/tags.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

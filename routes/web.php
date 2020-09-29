@@ -23,6 +23,7 @@ Auth::routes();
 
 route::post('app/create_tag', 'AdminController@addTag');
 route::get('app/get_tags', 'AdminController@getTag');
+route::post('app/edit_tag', 'AdminController@editTag');
 route::get('new', 'TestController@Method');
 
 route::any('{slug}', function(){

@@ -16,6 +16,17 @@ class AdminController extends Controller
             'tagName'=> $request->tagName,
         ]);
     }
+    
+    public function editTag(Request $request)
+    {
+        $this->validate($request, [
+            'tagName'=> 'required',
+            'id'=> 'required',
+        ]);
+        return Tag::where('id', $request->id)->update([
+            'tagName'=> $request->tagName,
+        ]);
+    }
 
     public function getTag()
     {

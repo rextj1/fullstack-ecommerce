@@ -25,8 +25,8 @@
 								<td class="_table_name">{{ tag.tagName }}</td>
 								<td>{{ tag.created_at }}</td>
 								<td>
-									<button type="info"  class="btn-primary btn-sm" size="small" @click="showEditModal(tag)">Edit</button>
-									<button type="error"  class="btn-danger btn-sm" size="error">Delete</button>
+									<button type="info"  class="btn-primary btn-sm" size="small" @click="showEditModal(tag, i)">Edit</button>
+									<button type="error"  class="btn-danger btn-sm" size="small" @click="deleteTag(tag, i)">Delete</button>
 									
 								</td>
 							</tr>
@@ -48,7 +48,8 @@
 
 					<div slot="footer">
 						<button type="default" class="btn-default btn-sm" @click="addModal=false">Close</button>
-						<button type="primary" class="btn-primary btn-sm" @click="addTag" :disabled="isAdding" :loading="isAdding">{{ isAdding ? 'loading...' : 'Add Tag' }}</button>
+						<button type="primary" class="btn-primary btn-sm" @click="addTag" :disabled="isAdding" 
+							:loading="isAdding">{{ isAdding ? 'loading...' : 'Add Tag' }}</button>
 					</div>
 				</modal>
 
@@ -62,13 +63,14 @@
 
 					<div slot="footer">
 						<button type="default" class="btn-default btn-sm" @click="editModal=false">Close</button>
-						<button type="primary" class="btn-primary btn-sm" @click="addTag" :disabled="isAdding" :loading="isAdding">{{ isAdding ? 'loading...' : 'Add Tag' }}</button>
+						<button type="primary" class="btn-primary btn-sm" @click="editTag" :disabled="isAdding"
+						 :loading="isAdding">{{ isAdding ? 'Editing...' : 'Edit Tag' }}</button>
 					</div>
 				</modal>
 
 
 			</div>
-		</div>+
+		</div>
     </div>
 </template>
 
@@ -86,7 +88,8 @@ export default {
 
 			editData: {
 				tagName: ''
-			}
+			},
+			index: -1
 		}
 	},
 
@@ -101,7 +104,7 @@ export default {
 				this.addModal= false
 				this.data.tagName= ''
 			}else{
-				if(res.status===422){
+				if(res.status=== 422){
 					//console.log(res.data)
 					if(res.data.errors.tagName){
 						this.e(res.data.errors.tagName[0])
@@ -113,9 +116,10 @@ export default {
 		},
 		// to edit database
 		async editTag(){
-			if(this.editData.tagName.trim()== '') return this.e('The name is required')
-			const res= await this.callApi('post', 'app/edit_tag', this.data)
+			if(this.editData.tagName.trim()=='') return this.e('Tag name is required')
+			const res= await this.callApi('post', 'app/edit_tag', this.editData)
 			if(res.status===200){
+				this.tags[this.index].tagName = this.editData.tagName
 				this.s('Tag has been edited successfully!')
 				this.editModal= false
 			}else{
@@ -128,9 +132,14 @@ export default {
 				}
 			}
 		},
-		showEditModal(tag){
-			this.editData= tag
+		showEditModal(tag, index){
+			let obj = {
+				id: tag.id,
+				tagName: tag.tagName,
+			}
+			this.editData= obj
 			this.editModal= true
+			this.index = index
 		}
 	},
 	async created(){
